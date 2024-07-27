@@ -1,5 +1,5 @@
 import { FC } from 'react'
-
+import Image from 'next/image'
 
 
 interface pageProps {
@@ -12,7 +12,7 @@ async function UserAvatar() {
 
     if (typeof session === null  ) { return <div className='w-full min-h-screen'>{JSON.stringify(session)}</div> }
     return <div className='w-full min-h-screen'>
-            <img src={session?.user?.image!} alt="user avatar" width={100} height={100} />
+            <Image src={session?.user?.image!} alt="user avatar" width={100} height={100} />
         </div>
     
 };
