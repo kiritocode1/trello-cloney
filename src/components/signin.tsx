@@ -5,10 +5,10 @@ export function SignIn() {
 		<form
 			action={async () => {
 				"use server";
-				await signIn("github" , {redirectTo:"/dashboard"});
+				await signIn("github", { redirectTo: "/dashboard" });
 			}}
 		>
-			<button type="submit">Signin with GitHub</button>
+			<button type="submit">Sign in</button>
 		</form>
 	);
 }
