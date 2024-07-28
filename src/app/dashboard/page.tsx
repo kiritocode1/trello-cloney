@@ -1,4 +1,5 @@
-import { FC } from 'react'
+
+import { FC, Suspense } from 'react'
 import Image from 'next/image'
 
 
@@ -23,11 +24,15 @@ async function UserAvatar() {
 
 
 const page: FC<pageProps> = ({}) => {
-    return <div className='w-full min-h-screen'>
-      <UserAvatar />
+    return (
+		<div className="w-full min-h-screen">
+			<UserAvatar />
 
-      <KanbanBoard/>
-  </div>
+			<Suspense fallback={<div>Loading...</div>}>
+				<KanbanBoard />
+			</Suspense>
+		</div>
+	);
 }
 
 export default page
