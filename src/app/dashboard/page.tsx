@@ -12,13 +12,16 @@ async function UserAvatar() {
 		return <div className="w-full min-h-screen">{JSON.stringify(session)}</div>;
 	}
 	return (
-		<div className="w-full min-h-screen">
+		<div className="">
 			<img
 				src={session?.user?.image!}
 				alt="user avatar"
 				width={100}
-				height={100}
-			/>
+        height={100}
+        className="rounded-full"
+      />
+      
+      {session?.user?.name!}
 		</div>
 	);
 }
