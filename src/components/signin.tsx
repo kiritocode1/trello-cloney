@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-
+import { Button } from "./ui/button";
 export function SignIn() {
 	return (
 		<form
@@ -8,7 +8,7 @@ export function SignIn() {
 				await signIn("github", { redirectTo: "/dashboard" });
 			}}
 		>
-			<button type="submit">Sign in</button>
+			<Button type="submit">Sign in</Button>
 		</form>
 	);
 }
