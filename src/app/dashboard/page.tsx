@@ -13,7 +13,7 @@ async function UserAvatar() {
 	}
 	return (
 		<div className="w-full min-h-screen">
-			<Image
+			<img
 				src={session?.user?.image!}
 				alt="user avatar"
 				width={100}
