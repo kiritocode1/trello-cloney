@@ -6,6 +6,7 @@ interface pageProps {
   
 }
 import { auth } from "@/auth";
+import { KanbanBoard } from '@/components/KanbanBoard';
 
 async function UserAvatar() {
     const session = await auth();
@@ -24,6 +25,8 @@ async function UserAvatar() {
 const page: FC<pageProps> = ({}) => {
     return <div className='w-full min-h-screen'>
       <UserAvatar />
+
+      <KanbanBoard/>
   </div>
 }
 
