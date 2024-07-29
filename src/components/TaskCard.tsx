@@ -4,14 +4,15 @@ import { CSS } from "@dnd-kit/utilities";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cva } from "class-variance-authority";
-import { GripVertical } from "lucide-react";
+import { GripVertical, Trash } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ColumnId } from "./KanbanBoard";
+import { MouseEventHandler } from "react";
 
 export interface Task {
 	id: UniqueIdentifier;
 	columnId: ColumnId;
-	description: string;
+	description?: string;
 	priority: 0 | 1 | 2; // high, medium, low  , so we can sort by priority . just like kernels :) 
 	deadline? : Date ;
 	
@@ -20,6 +21,7 @@ export interface Task {
 interface TaskCardProps {
 	task: Task;
 	isOverlay?: boolean;
+	deleteOnClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 export type TaskType = "Task";
@@ -29,7 +31,7 @@ export interface TaskDragData {
 	task: Task;
 }
 
-export function TaskCard({ task, isOverlay }: TaskCardProps) {
+export function TaskCard({ task, isOverlay , deleteOnClick  }: TaskCardProps) {
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
 		id: task.id,
 		data: {
@@ -73,12 +75,7 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
 					<span className="sr-only">Move task</span>
 					<GripVertical />
 				</Button>
-				<Badge
-					variant={"outline"}
-					className="ml-auto font-semibold"
-				>
-					Task
-				</Badge>
+
 				<Badge
 					variant={"outline"}
 					className={`ml-auto font-semibold ${task.priority === 0 ? "bg-red-500" : task.priority === 1 ? "bg-yellow-500" : "bg-green-500"}`}
@@ -86,17 +83,25 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
 					{task.priority === 0 ? "High" : task.priority === 1 ? "Medium" : "Low"}
 				</Badge>
 
-{task.deadline&&			<Badge
-					variant={"outline"}
-					className="ml-auto font-semibold"
+				{task.deadline && (
+					<Badge
+						variant={"outline"}
+						className="ml-auto font-semibold"
+					>
+						Deadline: {task.deadline?.toLocaleDateString()}
+					</Badge>
+				)}
+
+				<Button
+					onClick={deleteOnClick}
+					variant={"ghost"}
+					size={"sm"}
+					className=""
 				>
-					Deadline: {task.deadline?.toLocaleDateString()}
-				</Badge>}
+					<Trash  className="font-xs"/>
+				</Button>
 			</CardHeader>
-			<CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">
-				{task.description}
-			
-			</CardContent>
+			<CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">{task.description ?? <i className="text-slate-400">No Description</i>}</CardContent>
 		</Card>
 	);
 }

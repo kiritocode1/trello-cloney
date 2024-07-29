@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { BoardColumn, BoardContainer } from "./BoardColumn";
@@ -44,7 +44,7 @@ const initialTasks: Task[] = [
 	{
 		id: "task1",
 		columnId: "done",
-		description: "Project initiation and planning",
+
 		priority: 0,
 		deadline: new Date(2023, 1, 1),
 	},
@@ -66,7 +66,7 @@ const initialTasks: Task[] = [
 		id: "task4",
 		columnId: "in-progress",
 		description: "Develop homepage layout",
-		priority:0,
+		priority: 0,
 		deadline: new Date(2023, 2, 1),
 	},
 	{
@@ -116,25 +116,8 @@ const initialTasks: Task[] = [
 		columnId: "todo",
 		description: "Integrate payment gateway",
 		priority: 2,
-
-	},
-	{
-		id: "task12",
-		columnId: "todo",
-		description: "Perform testing and bug fixing",
-		priority: 0,
-		deadline: new Date(2023, 10, 1),
-	},
-	{
-		id: "task13",
-		columnId: "todo",
-		description: "Launch website and deploy to server",
-		priority: 1,
-		deadline: new Date(2023, 11, 1),
 	},
 ];
-
-
 
 function sortTasks(tasks: Task[]): Task[] {
 	const answer = tasks.sort((taskA, taskB) => {
@@ -154,14 +137,12 @@ function sortTasks(tasks: Task[]): Task[] {
 	return answer;
 }
 
-
-
 export function KanbanBoard() {
 	const [columns, setColumns] = useState<Column[]>(defaultCols);
 	const pickedUpTaskColumn = useRef<ColumnId | null>(null);
 	const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-	const [tasks, setTasks] = useState<Task[]>(initialTasks);
+	const [tasks, setTasks] = useState<Task[]>([]);
 
 	const [activeColumn, setActiveColumn] = useState<Column | null>(null);
 
@@ -235,9 +216,11 @@ export function KanbanBoard() {
 			}
 			pickedUpTaskColumn.current = null;
 
-			setTasks((tasks) => tasks.sort((a, b) => {
-				return a.priority - b.priority;
-			}))
+			setTasks((tasks) =>
+				tasks.sort((a, b) => {
+					return a.priority - b.priority;
+				}),
+			);
 		},
 		onDragCancel({ active }) {
 			pickedUpTaskColumn.current = null;
@@ -250,7 +233,7 @@ export function KanbanBoard() {
 
 	useEffect(() => {
 		setIsLoading(false);
-
+		setTasks(initialTasks);
 	}, []);
 
 	return (
@@ -289,6 +272,9 @@ export function KanbanBoard() {
 							<TaskCard
 								task={activeTask}
 								isOverlay
+								deleteOnClick={(e) => {
+									console.log("deleteOnClick");
+								}}
 							/>
 						)}
 					</DragOverlay>,

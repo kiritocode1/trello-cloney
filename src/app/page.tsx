@@ -9,6 +9,7 @@ export default function Home() {
       <SignIn />
       <Suspense fallback={<div>Loading...</div>}>
         <KanbanBoard />
+        
       </Suspense>
 		</main>
   );
