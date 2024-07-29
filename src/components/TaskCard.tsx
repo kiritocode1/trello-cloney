@@ -11,7 +11,10 @@ import { ColumnId } from "./KanbanBoard";
 export interface Task {
 	id: UniqueIdentifier;
 	columnId: ColumnId;
-	content: string;
+	description: string;
+	priority: 0 | 1 | 2; // high, medium, low  , so we can sort by priority . just like kernels :) 
+	deadline? : Date ;
+	
 }
 
 interface TaskCardProps {
@@ -76,8 +79,24 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
 				>
 					Task
 				</Badge>
+				<Badge
+					variant={"outline"}
+					className={`ml-auto font-semibold ${task.priority === 0 ? "bg-red-500" : task.priority === 1 ? "bg-yellow-500" : "bg-green-500"}`}
+				>
+					{task.priority === 0 ? "High" : task.priority === 1 ? "Medium" : "Low"}
+				</Badge>
+
+{task.deadline&&			<Badge
+					variant={"outline"}
+					className="ml-auto font-semibold"
+				>
+					Deadline: {task.deadline?.toLocaleDateString()}
+				</Badge>}
 			</CardHeader>
-			<CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">{task.content}</CardContent>
+			<CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">
+				{task.description}
+			
+			</CardContent>
 		</Card>
 	);
 }
